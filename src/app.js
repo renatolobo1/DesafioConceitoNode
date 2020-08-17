@@ -11,9 +11,13 @@ const repositories = [];
 
 
 app.get('/repositories', (request, response) => { 
+  const { title, url, techs } = request.body;
   
+  const results = title
+    ? repositories.filter(repository => repository.title.include(title))
+    : repositories;
 
-  return response.json(repositories);
+  return response.json(results);
 });
 
 app.post("/repositories", (request, response) => {
