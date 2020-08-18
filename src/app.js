@@ -71,9 +71,9 @@ app.put("/repositories/:id", (request, response) => {
     techs: techs ? techs : repository.techs,
     likes: repository.likes,
   };
-  repositories[repositoryIndex] = repository;
+  repositories[repositoryIndex] = repoData;
 
-  return response.json(repository);
+  return response.json(repoData);
 });
 
 app.delete("/repositories/:id", (request, response) => {
