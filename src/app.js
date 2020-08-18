@@ -27,13 +27,6 @@ const repositories = [];
   
   //   return response.json(results);
   // });
-
-  app.get('/repositories', (request, response) => { 
-    
-  
-    return response.json(repositories);
-  });
-
   function validateRepositoryId(request, response, next){
     const { id} = request.params;
   
@@ -43,6 +36,13 @@ const repositories = [];
     return next();
   }
 
+
+  app.get('/repositories', (request, response) => { 
+    
+  
+    return response.json(repositories);
+  });
+  
 
 app.post("/repositories", (request, response) => {
   const {title, url, techs} = request.body;
@@ -54,7 +54,7 @@ app.post("/repositories", (request, response) => {
   return response.json(repository);
 });
 
-app.put("/repositories/:id", (request, response) => {
+app.put("/repositories/:id",validateRepositoryId,  (request, response) => {
   const { id } = request.params;
   const { title, url, techs } = request.body;
 
