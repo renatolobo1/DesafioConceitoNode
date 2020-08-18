@@ -9,18 +9,29 @@ app.use(cors());
 
 const repositories = [];
 
-function validateRepositoryId(request, response, next){
-  const { id} = request.params;
+// function validateRepositoieId(request, response, next){
+//   const { id} = request.params;
 
-  if(!isUuid(id)){
-    return response.status(400).json({ error: 'Invalid Project ID'});
-  }
-  return next();
-}
+//   if(!isUuid(id)){
+//     return response.status(400).json({ error: 'Invalid Project ID'});
+//   }
+//   return next();
+// }
+
+  // app.get('/repositories', (request, response) => { 
+  //   const {title} = request.query;
+  
+  //   const results = title
+  //     ? repositories.filter(repositorie => repositorie.title.includes(title))
+  //     : repositories
+  
+  //   return response.json(results);
+  // });
+  
 
   app.get('/repositories', (request, response) => { 
-    const {title} = request.query;
     
+  
     return response.json(repositories);
   });
   
@@ -35,7 +46,7 @@ app.post("/repositories", (request, response) => {
   return response.json(repository);
 });
 
-app.put("/repositories/:id",validateRepositoryId,  (request, response) => {
+app.put("/repositories/:id",  (request, response) => {
   const { id } = request.params;
   const { title, url, techs } = request.body;
 
