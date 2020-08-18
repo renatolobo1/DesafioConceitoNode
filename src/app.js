@@ -34,6 +34,15 @@ const repositories = [];
     return response.json(repositories);
   });
 
+  function validateRepositoryId(request, response, next){
+    const { id} = request.params;
+  
+    if(!isUuid(id)){
+      return response.status(400).json({ error: 'Invalid Project ID'});
+    }
+    return next();
+  }
+
 
 app.post("/repositories", (request, response) => {
   const {title, url, techs} = request.body;
@@ -46,25 +55,22 @@ app.post("/repositories", (request, response) => {
 });
 
 app.put("/repositories/:id", (request, response) => {
-  const {id} = request.params;
-  const {title, url, techs} = request.body;
+  const { id } = request.params;
+  const { title, url, techs } = request.body;
 
-  const repositoryIndex = repositories.findIndex(repository => repository.id === id );
+  const repositoryIndex = repositories.findIndex(
+    (repository) => repository.id === id
+  );
 
-  if (repositoryIndex < 0) {
-    return response.status(400).json({ error: 'Project not found.'})
-  }
+  const repository = repositories.find((repository) => repository.id === id);
 
-  
-
-  const repository = {
+  const repoData = {
     id,
-    title, 
-    url, 
-    techs,
-    likes
+    title: title ? title : repository.title,
+    url: url ? url : repository.url,
+    techs: techs ? techs : repository.techs,
+    likes: repository.likes,
   };
-
   repositories[repositoryIndex] = repository;
 
   return response.json(repository);
