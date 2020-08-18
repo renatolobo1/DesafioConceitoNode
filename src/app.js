@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { uuid } = require("uuidv4");
+const { uuid, isUuid } = require("uuidv4");
 
 const app = express();
 
@@ -27,7 +27,14 @@ const repositories = [];
   
   //   return response.json(results);
   // });
+  function validateRepositoryId(request, response, next){
+    const { id} = request.params;
   
+    if(!isUuid(id)){
+      return response.status(400).json({ error: 'Invalid Project ID'});
+    }
+    return next();
+  }
 
   app.get('/repositories', (request, response) => { 
     
@@ -46,7 +53,7 @@ app.post("/repositories", (request, response) => {
   return response.json(repository);
 });
 
-app.put("/repositories/:id",  (request, response) => {
+app.put("/repositories/:id",validateRepositoryId,  (request, response) => {
   const { id } = request.params;
   const { title, url, techs } = request.body;
 
