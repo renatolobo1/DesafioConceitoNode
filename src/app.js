@@ -20,11 +20,7 @@ function validateRepositoryId(request, response, next){
 
   app.get('/repositories', (request, response) => { 
     const {title} = request.query;
-  
-    const results = title
-      ? repositories.filter(repositorie => repositorie.title.includes(title))
-      : repositories
-  
+    
     return response.json(repositories);
   });
   
